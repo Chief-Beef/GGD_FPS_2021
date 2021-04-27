@@ -19,6 +19,8 @@ public class ChangeWeapon : MonoBehaviour
     public Image[] crosshairs;
     public Image uziCross, shotgunCross, sniperCross;
 
+    public Text[] Txt;
+    public Text uziText, shotgunText, sniperText;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class ChangeWeapon : MonoBehaviour
         activeGun = 0;
         guns = new GameObject[totalGuns];
         crosshairs = new Image[totalGuns];
+        Txt = new Text[totalGuns];
 
         guns[0] = Uzi;
         guns[1] = Shotgun;
@@ -44,6 +47,17 @@ public class ChangeWeapon : MonoBehaviour
         crosshairs[0].enabled = true;
         crosshairs[1].enabled = false;
         crosshairs[2].enabled = false;
+
+        Txt[0] = uziText;
+        Txt[1] = shotgunText;
+        Txt[2] = sniperText;
+
+
+        Txt[0].enabled = true;
+        Txt[1].enabled = false;
+        Txt[2].enabled = false;
+
+
     }
 
     // Update is called once per frame
@@ -76,12 +90,14 @@ public class ChangeWeapon : MonoBehaviour
                 //Set the chosen gun to active
                 guns[i].SetActive(true);
                 crosshairs[i].enabled = true;
+                Txt[i].enabled = true;
             }
             else
             {
                 //set all other guns to inactive
                 guns[i].SetActive(false);
                 crosshairs[i].enabled = false;
+                Txt[i].enabled = false;
             }
         }
 

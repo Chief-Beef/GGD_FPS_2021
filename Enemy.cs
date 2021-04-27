@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class EnemyScript : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
 
     public float speed;

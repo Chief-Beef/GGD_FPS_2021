@@ -24,7 +24,7 @@ public class HealthScript : MonoBehaviour
     }
 
 
-    public void takeDamage(float damage)
+    public void hitMarker(float damage)
     {
 
         health -= damage;
