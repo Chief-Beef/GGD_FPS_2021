@@ -40,7 +40,14 @@ public class PlayerHealth : MonoBehaviour
             Heal();
         }
         
+        if(health <= 0)
+        {
 
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneScript.Instance.LoadScene("Lose");
+            
+        }
     }
 
 

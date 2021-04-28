@@ -34,6 +34,8 @@ public class EnemyScript : MonoBehaviour
 
     public LayerMask groundMask, playerMask;
 
+    public ParticleSystem muzzleFlash;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,20 +47,19 @@ public class EnemyScript : MonoBehaviour
     void Update()
     {
 
-
         withinSight = Physics.CheckSphere(this.transform.position, sightRange, playerMask);
         withinAttack = Physics.CheckSphere(this.transform.position, attackRange, playerMask);
-
-
+        
         if (withinSight && !withinAttack)
         {
             HotPursuit();
         }
         else if (withinAttack)
         {
+
             shootTime -= Time.deltaTime;
             Debug.Log("Attack");
-
+            this.transform.LookAt(player);
 
             if (shootTime <= 0)
             {
@@ -74,9 +75,6 @@ public class EnemyScript : MonoBehaviour
         {
             Patrol();
         }
-
-
-
 
     }
 
@@ -103,8 +101,9 @@ public class EnemyScript : MonoBehaviour
 
     public void Attack()
     {
-        //agent.SetDestination(this.transform.position);
-        this.transform.LookAt(player);
+        muzzleFlash.Stop();
+
+        agent.SetDestination(this.transform.position);
 
         PlayerHealth.Instance.PlayerDamage(damageValue);
         Debug.Log("BANG");
@@ -115,6 +114,7 @@ public class EnemyScript : MonoBehaviour
     public void HotPursuit()
     {
         agent.SetDestination(player.position);
+
     }
 
     public void setWalkPoint()

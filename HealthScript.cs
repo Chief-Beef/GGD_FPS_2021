@@ -28,10 +28,14 @@ public class HealthScript : MonoBehaviour
     {
 
         health -= damage;
+
+        NoisyBoi.Instance.MakeNoise();
+
         if(health <= 0)
         {
             //Die
             Destroy(this.gameObject);
+            WinCondition.Instance.checkForWin();
         }
 
     }
