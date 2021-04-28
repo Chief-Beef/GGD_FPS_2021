@@ -18,6 +18,8 @@ public class ChangeWeapon : MonoBehaviour
 
     public Image[] crosshairs;
     public Image uziCross, shotgunCross, sniperCross;
+    public Image reloadWhite;
+    public Image reloadBack;
 
     public Text[] Txt;
     public Text uziText, shotgunText, sniperText;
@@ -79,6 +81,9 @@ public class ChangeWeapon : MonoBehaviour
         //Deactivate other guns and crosshairs
 
         Debug.Log("Switch Guns");
+
+        reloadWhite.enabled = false;
+        reloadBack.enabled = false;
 
         //Changes ActiveGun to the next weapon and makes sure to stay inside array
         activeGun = (activeGun + 1) % totalGuns;

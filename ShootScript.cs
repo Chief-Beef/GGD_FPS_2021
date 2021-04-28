@@ -27,11 +27,22 @@ public class ShootScript : MonoBehaviour
 
     public Text txt;
 
+    public Transform reloadBar;
+
+    public Image reloadWhite;
+    public Image reloadBack;
+
+    public float reloadPct;
+
     // Start is called before the first frame update
     void Start()
     {
         ammo = magSize;
         timerReset = reloadTimer;
+
+        reloadWhite.enabled = false;
+        reloadBack.enabled = false;
+
     }
 
     // Update is called once per frame
@@ -40,15 +51,21 @@ public class ShootScript : MonoBehaviour
         if (this.gameObject.tag == "Uzi")
         {
 
-            if (ammo > 9)
-            {
-                txt.text = ammo + "/" + magSize;
-            }
-            else
+            if (ammo < 10)
             {
                 txt.text = "0" + ammo + "/" + magSize;
             }
+            else
+            {
+                txt.text = ammo + "/" + magSize;
+            }
+
         }
+        else
+        {
+            txt.text = ammo + "/" + magSize;
+        }
+
 
         if (shotClock >= 0)
         {
@@ -58,6 +75,7 @@ public class ShootScript : MonoBehaviour
         if (Input.GetKeyDown(R))
         {
             ammo = 0;
+            //PlayerHealth.Instance.PlayerDamage(10);
         }
 
         if (ammo == 0)
@@ -112,14 +130,26 @@ public class ShootScript : MonoBehaviour
     public void Reload()
     {
 
+        reloadWhite.enabled = true;
+        reloadBack.enabled = true;
+
         reloadTimer -= Time.deltaTime;
 
         if (reloadTimer <= 0)
         {
             ammo = magSize;
             reloadTimer = timerReset;
+
+            reloadWhite.enabled = false;
+            reloadBack.enabled = false;
+
         }
-        
+
+        reloadPct = (timerReset - reloadTimer)/timerReset;
+
+        reloadBar.localScale = Vector3.Lerp(reloadBar.localScale, new Vector3(reloadPct, 1, 1), Time.deltaTime * 8f);
+
+
     }
 
 }

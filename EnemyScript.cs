@@ -22,6 +22,10 @@ public class EnemyScript : MonoBehaviour
 
     //attack variables
     public float shootTime;
+    public float timerReset;
+    public float attackValue;
+    public float damageValue;
+    public float rand;
     bool shoot;
 
     public NavMeshAgent agent;
@@ -34,11 +38,14 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").transform;
+        timerReset = shootTime;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         withinSight = Physics.CheckSphere(this.transform.position, sightRange, playerMask);
         withinAttack = Physics.CheckSphere(this.transform.position, attackRange, playerMask);
 
@@ -49,7 +56,19 @@ public class EnemyScript : MonoBehaviour
         }
         else if (withinAttack)
         {
-            Attack();
+            shootTime -= Time.deltaTime;
+            Debug.Log("Attack");
+
+
+            if (shootTime <= 0)
+            {
+                rand = Random.Range(0f, attackValue);
+                if (rand <= 1.0f)
+                {
+                    Attack();
+                }
+                shootTime = timerReset;
+            }
         }
         else
         {
@@ -84,12 +103,13 @@ public class EnemyScript : MonoBehaviour
 
     public void Attack()
     {
-        agent.SetDestination(this.transform.position);
-
+        //agent.SetDestination(this.transform.position);
         this.transform.LookAt(player);
 
+        PlayerHealth.Instance.PlayerDamage(damageValue);
+        Debug.Log("BANG");
 
-
+        shootTime = timerReset;
     }
 
     public void HotPursuit()

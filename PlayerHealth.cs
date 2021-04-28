@@ -6,32 +6,64 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
 
+    public static PlayerHealth Instance;
+
     public float health;
     public float maxHealth;
+    public float healthPct;
+    public float healTimer;
+    public float timerReset;
 
-    public Image healthBar;
+    public Transform healthBar;
 
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = healthBar.flexibleWidth;
-
+        Instance = this;
         health = maxHealth;
+        timerReset = healTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(maxHealth + "\t" + health);
+        HealthBar();
+
+        if(health < maxHealth)
+        {
+            healTimer -= Time.deltaTime;
+        }
+
+        if(healTimer <= 0)
+        {
+            Heal();
+        }
         
+
     }
 
 
-    void PlayerDamage(float damage)
+    public void PlayerDamage(float damage)
     {
         health -= damage;
-
-        healthBar.rectTransform.sizeDelta = new Vector2(health, healthBar.flexibleHeight);
-        healthBar.transform.position = new Vector2(this.transform.position.x - damage/2, this.transform.position.y);
+        healTimer = timerReset;
     }
+
+    public void HealthBar()
+    {
+        healthPct = health / maxHealth;
+
+        healthBar.localScale = Vector3.Lerp(healthBar.localScale, new Vector3(healthPct, 1, 1), Time.deltaTime * 8f);
+    }
+
+    public void Heal()
+    {
+        if (health < maxHealth)
+        {
+            health++;
+        }
+    }
+
 
 }
